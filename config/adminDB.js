@@ -1,19 +1,12 @@
+require('dotenv').config(); // only needed locally
+
 const mongoose = require('mongoose');
 
-const URI = "mongodb://localhost:27017/admin-CURD";
+const URI = process.env.MONGO_URL;
 
-mongoose.connect(URI);
-
-const db = mongoose.connection;
-
-db.on('connected', () => {
-    console.log("DB Connected...."); 
-});
-db.on('diconnected', () => {
-    console.log("DB Disconnected...."); 
-});
-db.on('error', (err) => {
-    console.log("DB Not Connected....",err); 
-});
-
-module.exports = db;
+mongoose.connect(URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log("DB Connected...."))
+    .catch((err) => console.log("DB Not Connected....", err));
