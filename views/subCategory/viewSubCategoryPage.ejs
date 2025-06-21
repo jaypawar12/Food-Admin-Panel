@@ -15,19 +15,20 @@
 
             <div class="card-body px-0 pb-2">
                 <div class="table-responsive p-3">
-                    <% if (subCategory && subCategory.length> 0) { %>
-                        <table class="table align-items-center mb-0 table-hover text-sm">
-                            <thead class="bg-dark text-white text-center">
-                                <tr class="text-center">
-                                    <th class="text-white rounded-start">Image</th>
-                                    <th class="text-white">Name</th>
-                                    <th class="text-white">Category</th>
-                                    <th class="text-white">Description</th>
-                                    <th class="text-white">Status</th>
-                                    <th class="text-white rounded-end">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <table class="table align-items-center mb-0 table-hover text-sm">
+                        <thead class="bg-dark text-white text-center">
+                            <tr class="text-center">
+                                <th class="text-white rounded-start">Image</th>
+                                <th class="text-white">Name</th>
+                                <th class="text-white">Category</th>
+                                <th class="text-white">Description</th>
+                                <th class="text-white">Status</th>
+                                <th class="text-white rounded-end">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% if (subCategory && subCategory.length> 0) { %>
                                 <% subCategory.forEach(sub=> { %>
                                     <tr data-bs-toggle="modal" data-bs-target="#subCategoryModal<%= sub._id %>">
                                         <td class="text-center">
@@ -125,15 +126,15 @@
                                         </div>
                                     </div>
                                     <% }) %>
-                            </tbody>
-                        </table>
-                        <% } else { %>
-                            <div class="text-center py-5">
-                                <div class="alert alert-info shadow-sm">
-                                    <i class="fas fa-info-circle me-2"></i>No subcategories found.
-                                </div>
-                            </div>
-                            <% } %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="8" class="text-center py-4 text-muted">
+                                                    <i class="fas fa-info-circle me-2"></i>No Sub Category Found.
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -13,24 +13,24 @@
             </div>
             <div class="card-body px-0 pb-2">
                 <div class="table-responsive p-3">
-                    <% if (extraCategory && extraCategory.length> 0) { %>
-                        <table class="table align-items-center mb-0 table-hover text-sm">
-                            <thead class="bg-dark">
-                                <tr>
-                                    <th class="text-center text-white rounded-start">Image</th>
-                                    <th class="text-center text-white">Name</th>
-                                    <th class="text-center text-white">Category</th>
-                                    <th class="text-center text-white">SubCategory
-                                    </th>
-                                    <th class="text-center text-white">Description
-                                    </th>
-                                    <th class="text-center text-white">
-                                        Status</th>
-                                    <th class="text-center text-white rounded-end">
-                                        Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <table class="table align-items-center mb-0 table-hover text-sm">
+                        <thead class="bg-dark">
+                            <tr>
+                                <th class="text-center text-white rounded-start">Image</th>
+                                <th class="text-center text-white">Name</th>
+                                <th class="text-center text-white">Category</th>
+                                <th class="text-center text-white">SubCategory
+                                </th>
+                                <th class="text-center text-white">Description
+                                </th>
+                                <th class="text-center text-white">
+                                    Status</th>
+                                <th class="text-center text-white rounded-end">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (extraCategory && extraCategory.length> 0) { %>
                                 <% extraCategory.forEach(extra=> { %>
                                     <tr data-bs-toggle="modal" data-bs-target="#extraCategoryModal<%= extra._id %>">
                                         <td class="text-center">
@@ -136,15 +136,16 @@
                                         </div>
                                     </div>
                                     <% }) %>
-                            </tbody>
-                        </table>
-                        <% } else { %>
-                            <div class="text-center py-5">
-                                <div class="alert alert-info shadow-sm">
-                                    <i class="fas fa-info-circle me-2"></i>No extra categories found.
-                                </div>
-                            </div>
-                            <% } %>
+                                        <% } else { %>
+
+                                            <tr>
+                                                <td colspan="8" class="text-center py-4 text-muted">
+                                                    <i class="fas fa-info-circle me-2"></i>No Extra Category Found.
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

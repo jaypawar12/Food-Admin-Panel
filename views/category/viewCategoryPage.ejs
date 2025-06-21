@@ -31,24 +31,24 @@
 
             <div class="card-body px-0 pb-2">
                 <div class="table-responsive p-3">
-                    <% if (categories.length> 0) { %>
-                        <table class="table align-items-start mb-0 table-hover text-sm">
-                            <thead class="bg-dark">
-                                <tr>
-                                    <th style="width: 80px;" class="text-center text-white rounded-start">
-                                        Image</th>
-                                    <th class="text-center text-white">
-                                        Name</th>
-                                    <th class="text-center text-white">
-                                        Description
-                                    </th>
-                                    <th class="text-center text-white">
-                                        Status</th>
-                                    <th class="text-center text-white rounded-end">
-                                        Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <table class="table align-items-start mb-0 table-hover text-sm">
+                        <thead class="bg-dark">
+                            <tr>
+                                <th style="width: 80px;" class="text-center text-white rounded-start">
+                                    Image</th>
+                                <th class="text-center text-white">
+                                    Name</th>
+                                <th class="text-center text-white">
+                                    Description
+                                </th>
+                                <th class="text-center text-white">
+                                    Status</th>
+                                <th class="text-center text-white rounded-end">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (categories.length> 0) { %>
                                 <% categories.forEach((cat)=> { %>
                                     <tr data-bs-toggle="modal" data-bs-target="#categoryDetailModal"
                                         data-category-id="<%= cat._id %>" data-category-name="<%= cat.category_name %>"
@@ -70,7 +70,9 @@
                                         </td>
 
                                         <td class="align-middle text-muted text-wrap" style="max-width: 300px;">
-                                           <strong> <%= cat.category_description %></strong>
+                                            <strong>
+                                                <%= cat.category_description %>
+                                            </strong>
                                         </td>
 
                                         <td class="text-center align-middle">
@@ -84,7 +86,8 @@
                                         <td class="align-middle text-center">
                                             <div class="d-flex justify-content-center gap-2">
                                                 <a href="/category/editCategoryPage/<%= cat._id %>"
-                                                    class="btn btn-outline-dark btn-md" style="margin-bottom: 0;" title="Edit">
+                                                    class="btn btn-outline-dark btn-md" style="margin-bottom: 0;"
+                                                    title="Edit">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
@@ -98,16 +101,15 @@
                                         </td>
                                     </tr>
                                     <% }) %>
-                            </tbody>
-                        </table>
-                        <% } else { %>
-                            <div class="text-center py-5">
-                                <div class="alert alert-info d-inline-flex align-items-center" role="alert">
-                                    <i class="fas fa-info-circle me-2"></i>
-                                    <h5 class="mb-0">No categories found.</h5>
-                                </div>
-                            </div>
-                            <% } %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="8" class="text-center py-4 text-muted">
+                                                    <i class="fas fa-info-circle me-2"></i>No Category Found.
+                                                </td>
+                                                </tr>
+                                                <% } %>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
