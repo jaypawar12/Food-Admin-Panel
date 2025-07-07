@@ -19,6 +19,13 @@
                                 <i class="fas fa-box-open me-2 text-dark"></i>Add New Product
                             </h4>
 
+                            <div class="text-end mb-4">
+                                <a href="/product/viewProductPage"
+                                    class="btn btn-md bg-gradient-dark text-white shadow">
+                                    <i class="fas fa-box-open pe-1"></i> View All Product
+                                </a>
+                            </div>
+
                             <form action="/product/insertProduct" method="POST" enctype="multipart/form-data">
 
                                 <!-- Product Name -->
@@ -194,7 +201,7 @@
             }
         </style>
 
-        
+
         <script>
             const priceInput = document.querySelector('[name="product_price"]');
             const discountInput = document.querySelector('[name="product_discount"]');
