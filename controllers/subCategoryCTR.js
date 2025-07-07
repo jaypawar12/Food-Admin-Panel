@@ -118,45 +118,45 @@ const updateSubCategory = async (req, res) => {
 };
 
 const deleteSubCategory = async (req, res) => {
-    const deleteId = req.params.id;
-
-    console.log("Delete SubCategory Id", deleteId);
+    const { id } = req.params;
+    console.log("Delete SubCategory Id", id);
 
     try {
-        const deletExtraCategory = await extraCategoryDetails.deleteMany({
-            subCategory_id: deleteId,
-        });
+        const extraCategory = await extraCategoryDetails.find({});
+        const product = await productDetails.find({});
 
-        const deleteProduct = await productDetails.deleteMany({
-            subcategory_id: req.params.id,
-        });
-
-        if (deletExtraCategory && deleteProduct) {
-            const deleteSubCategory = await subCategoryDetails.findByIdAndDelete(deleteId);
-            console.log(deleteSubCategory);
-
-            if (deleteSubCategory) {
-                req.flash(
-                    "success",
-                    `<i class="fas fa-check-circle me-2"></i>${deleteSubCategory.subcategory_name} deleted successfully...`
-                );
-            } else {
-                req.flash("error", "SubCategory Not Found or Already Deleted.");
+        extraCategory.forEach(element => {
+            if (element.subCategory_id === id) {
+                try { fs.unlinkSync(element.extraCategory_image); } catch (e) { }
             }
+        });
+
+        product.forEach(element => {
+            if (element.subCategory_id === id) {
+                try { fs.unlinkSync(element.product_image); } catch (e) { }
+            }
+        });
+
+        extraCategoryDetails.deleteMany({ subCategory_id: id }),
+        productDetails.deleteMany({ subCategory_id: id })
+
+        const deleteSubCategory = await subCategoryDetails.findByIdAndDelete(id);
+
+        if (deleteSubCategory) {
+            try { fs.unlinkSync(deleteSubCategory.subCategory_image); } catch (e) { }
+            req.flash("success", `${deleteSubCategory.subcategory_name} deleted successfully...`);
         } else {
-            req.flash("error", "SubCategory Not Found or Already Deleted..");
+            req.flash("error", "SubCategory Not Found or Already Deleted.");
         }
 
         res.redirect("/subCategory/viewSubCategoryPage");
     } catch (e) {
-        console.log(e);
-        req.flash(
-            "error",
-            "Something went wrong while trying to delete the sub‑category."
-        );
+        console.error(e);
+        req.flash("error", "Something went wrong while trying to delete the sub-category.");
         res.redirect("/subCategory/viewSubCategoryPage");
     }
-}
+};
+
 
 module.exports = {
     addSubCategory,

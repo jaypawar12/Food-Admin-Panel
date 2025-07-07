@@ -1,6 +1,7 @@
 const extraCategoryDetails = require('../models/extraCaetgoryModel');
 const subCategoryDetails = require('../models/subCategoryModel');
 const categoryDetails = require('../models/categoryModel');
+const productDetails = require('../models/productModel');
 const fs = require('fs');
 const path = require('path');
 
@@ -119,45 +120,34 @@ const updateExtraCategory = async (req, res) => {
 };
 
 const deleteExtraCategory = async (req, res) => {
-    const deleteId = req.params.id;
-
-    console.log("Delete ExtraCategory Id", deleteId);
+    const { id } = req.params;
+    console.log("Delete ExtraCategory Id", id);
 
     try {
-        const deletExtraCategory = await extraCategoryDetails.deleteMany({
-            extraCategory_id: deleteId,
+        const product = await productDetails.find({ extraCategory_id: id });
+
+        product.forEach(element => {
+            try { fs.unlinkSync(element.product_image); } catch (e) { }
         });
 
-        const deleteProduct = await productDetails.deleteMany({
-            extraCategory_id: req.params.id,
-        });
+        await productDetails.deleteMany({ extraCategory_id: id });
 
-        if (deletExtraCategory && deleteProduct) {
-            const deleteExtraCategory = await extraCategoryDetails.findByIdAndDelete(deleteId);
-            console.log(deleteExtraCategory);
+        const deleteExtraCategory = await extraCategoryDetails.findByIdAndDelete(id);
 
-            if (deleteExtraCategory) {
-                req.flash(
-                    "success",
-                    `${deleteExtraCategory.extraCategory_name} deleted successfully...`
-                );
-            } else {
-                req.flash("error", "ExtraCategory Not Found or Already Deleted.");
-            }
+        if (deleteExtraCategory) {
+            try { fs.unlinkSync(deleteExtraCategory.extraCategory_image); } catch (e) { }
+            req.flash("success", `${deleteExtraCategory.extraCategory_name} deleted successfully...`);
         } else {
-            req.flash("error", "ExtraCategory Not Found or Already Deleted..");
+            req.flash("error", "ExtraCategory Not Found or Already Deleted.");
         }
 
         res.redirect("/extraCategory/viewExtraCategoryPage");
     } catch (e) {
-        console.log(e);
-        req.flash(
-            "error",
-            "Something went wrong while trying to delete the sub‑category."
-        );
+        console.error(e);
+        req.flash("error", "Something went wrong while trying to delete the extra-category.");
         res.redirect("/extraCategory/viewExtraCategoryPage");
     }
-}
+};
 
 module.exports = {
     addExtraCategoryPage,

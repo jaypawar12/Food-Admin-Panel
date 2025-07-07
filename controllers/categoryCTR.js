@@ -49,30 +49,41 @@ const viewCategoryPage = async (req, res) => {
 
 const deleteCategory = async (req, res) => {
     try {
-        const subCategoryDeleteData = await subCategoryDetails.deleteMany({
-            category_id: req.params.id,
-        });
-        const extraCategoryDeleteData = await extraCategoryDetails.deleteMany({
-            category_id: req.params.id,
-        });
-        const productDeleteData = await productDetails.deleteMany({
-            category_id: req.params.id,
-        });
+        const { id } = req.params;
 
-        if (subCategoryDeleteData && extraCategoryDeleteData && productDeleteData) {
-            const deleteData = await categoryDetails.findByIdAndDelete({ _id: req.params.id });
-            console.log("Deleted Data", deleteData);
+        const subCategory = await subCategoryDetails.find({});
+        const extraCategory = await extraCategoryDetails.find({});
+        const product = await productDetails.find({});
 
-
-            if (deleteData) {
-                fs.unlinkSync(deleteData.category_image);
-                req.flash("success", "Category Deleted Successfully!");
-            } else {
-                req.flash("error", "Category Not Found or Already Deleted.");
+        subCategory.forEach(element => {
+            if (element.category_id === id) {
+                try { fs.unlinkSync(element.subCategory_image); } catch (e) { }
             }
+        });
 
+        extraCategory.forEach(element => {
+            if (element.category_id === id) {
+                try { fs.unlinkSync(element.extraCategory_image); } catch (e) { }
+            }
+        });
+
+        product.forEach(element => {
+            if (element.category_id === id) {
+                try { fs.unlinkSync(element.product_image); } catch (e) { }
+            }
+        });
+
+        subCategoryDetails.deleteMany({ category_id: id }),
+        extraCategoryDetails.deleteMany({ category_id: id }),
+        productDetails.deleteMany({ category_id: id })
+
+        const deleteData = await categoryDetails.findByIdAndDelete(id);
+
+        if (deleteData) {
+            try { fs.unlinkSync(deleteData.category_image); } catch (e) { }
+            req.flash("success", `${deleteData.category_name} Deleted Successfully!`);
         } else {
-            req.flash("error", "Category Not Found or Already Deleted.");
+            req.flash("error", `Category Not Found or Already Deleted.`);
         }
 
         res.redirect('/category/viewCategory');
@@ -82,6 +93,7 @@ const deleteCategory = async (req, res) => {
         res.redirect('/category/viewCategory');
     }
 };
+
 
 const editCategoryPage = async (req, res) => {
     try {

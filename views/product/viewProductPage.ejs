@@ -43,13 +43,14 @@
                                             </td>
 
                                             <!-- Name & Description -->
-                                            <td class="text-start">
-                                                <strong class="text-dark">
+                                            <td>
+                                                <strong class="text-dark text-center">
                                                     <%= p.product_name %>
                                                 </strong><br>
-                                                <small class="text-muted" title="<%= p.product_description %>">
+                                                <strong class="text-muted text text-start"
+                                                    title="<%= p.product_description %>">
                                                     <%= p.product_description.substring(0, 40) %>…
-                                                </small>
+                                                </strong>
                                             </td>
 
                                             <!-- Price -->
@@ -61,8 +62,10 @@
                                             <!-- Category -->
                                             <td>
                                                 <% if (p.category_id) { %>
-                                                    <span class="badge text-dark">
-                                                        <%= p.category_id.category_name %>
+                                                    <span class="text-dark">
+                                                        <strong>
+                                                            <%= p.category_id.category_name %>
+                                                        </strong>
                                                     </span>
                                                     <% } else { %>
                                                         <span class="text-muted">—</span>
@@ -72,8 +75,10 @@
                                             <!-- SubCategory -->
                                             <td>
                                                 <% if (p.subCategory_id) { %>
-                                                    <span class="badge text-dark">
-                                                        <%= p.subCategory_id.subCategory_name %>
+                                                    <span class="text-dark">
+                                                        <strong>
+                                                            <%= p.subCategory_id.subCategory_name %>
+                                                        </strong>
                                                     </span>
                                                     <% } else { %>
                                                         <span class="text-muted">—</span>
@@ -83,8 +88,10 @@
                                             <!-- ExtraCategory -->
                                             <td>
                                                 <% if (p.extraCategory_id) { %>
-                                                    <span class="badge  text-dark">
-                                                        <%= p.extraCategory_id.extraCategory_name %>
+                                                    <span class="text-dark">
+                                                        <strong>
+                                                            <%= p.extraCategory_id.extraCategory_name %>
+                                                        </strong>
                                                     </span>
                                                     <% } else { %>
                                                         <span class="text-muted">—</span>
@@ -103,13 +110,15 @@
                                             <td>
                                                 <div class="d-flex justify-content-center gap-2">
                                                     <a href="/product/editProductPage/<%= p._id %>"
-                                                        class="btn btn-outline-dark btn-md" style="margin-bottom: 0;" title="Edit">
+                                                        class="btn btn-outline-dark btn-md" style="margin-bottom: 0;"
+                                                        title="Edit">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     <form action="/product/deleteProduct/<%= p._id %>" method="POST"
                                                         class="d-inline"
                                                         onsubmit="return confirm('Delete this product?')">
-                                                        <button class="btn btn-outline-danger btn-md" style="margin-bottom: 0;" title="Delete">
+                                                        <button class="btn btn-outline-danger btn-md"
+                                                            style="margin-bottom: 0;" title="Delete">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </form>
@@ -195,5 +204,9 @@
 
             .table-hover tbody tr:hover {
                 background-color: #f5f5f5;
+            }
+
+            .text {
+                font-size: 13px !important;
             }
         </style>
