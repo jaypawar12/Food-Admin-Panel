@@ -1,6 +1,10 @@
 const adminDetails = require('../models/adminModel');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
+const categoryDetails = require('../models/categoryModel');
+const subCategoryDetails = require('../models/subCategoryModel');
+const extraCategoryDetails = require('../models/extraCaetgoryModel');
+const productDetails = require('../models/productModel');
 
 
 // Sign In Admin
@@ -274,8 +278,13 @@ const signUp = async (req, res) => {
 
 
 // Rendering Page
-const dashboard = (req, res) => {
-    res.render("dashboard", { success: req.flash('success'), error: req.flash('error') });
+const dashboard = async (req, res) => {
+    const admin = await adminDetails.find({})
+    const category = await categoryDetails.find({});
+    const subCategory = await subCategoryDetails.find({});
+    const extraCategory = await extraCategoryDetails.find({});
+    const product = await productDetails.find({});
+    res.render("dashboard", { success: req.flash('success'), error: req.flash('error'), admin, category, subCategory, extraCategory, product });
 };
 
 const addAdminPage = (req, res) => {
